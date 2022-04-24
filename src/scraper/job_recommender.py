@@ -22,6 +22,7 @@ class JobRecommendation:
 
     def getRowsWithHeading(self):
         self.getAllRows()
+        corpus = []
         with open('All_Jobs.csv', 'r') as file:
             reader = csv.DictReader(file)
             data = {}
@@ -42,7 +43,6 @@ class JobRecommendation:
         print("rows ", str(len(self.csv_rows)))
         tfidf = vect.fit_transform(self.corpus)
         pairwise_similarity = tfidf * tfidf.T
-        pairwise_similarity
 
         arr = pairwise_similarity.toarray()
         print(arr)
@@ -61,11 +61,11 @@ class JobRecommendation:
                         self.recommendation.append(job)
         return self.recommendation
 
-    def main(self):
-        self.getRowsWithHeading()
-
-    if __name__ == "__main__":
-        main()
+    # def main(self):
+    #     self.getRowsWithHeading()
+    # 
+    # if __name__ == "__main__":
+    #     main()
 
     # input_doc = "sales associate"
     # input_idx = corpus.index(input_doc)

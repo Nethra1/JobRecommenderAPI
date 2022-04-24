@@ -9,15 +9,15 @@ from src.scraper.writeCSV import CSVWriter
 
 
 class Scraper:
-    def main(self):
+    def main(self, position, location):
 
         CSVWriter.initializeRowHeader('All_Jobs.csv')
 
         indeed = Indeed()
-        p1 = Process(indeed.startCrawling("Sales Associate", "Windsor"))
+        p1 = Process(indeed.startCrawling(position, location))
         p1.start()
         linkedIn = LinkedIn()
-        p2 = Process(linkedIn.process())
+        p2 = Process(linkedIn.process(position, location))
         p2.start()
         p1.join()
         p2.join()

@@ -37,17 +37,24 @@ class LinkedIn:
 
         return jobs
 
-    def process(self):
+    def process(self, position, location):
         print("linkedin started")
+        urlBase = 'https://www.linkedin.com/jobs/search?'
+        if position:
+            jobPosition = 'keywords=' + position.strip().replace(' ', '%20')
+        if location:
+            jobLocation = '&location=' + location.strip()
+
+        searchUrl = urlBase + jobPosition + jobLocation
         browser=webdriver.Chrome()
-        browser.get("https://ca.linkedin.com/jobs/search?keywords=&location=Windsor")
+        browser.get(searchUrl)
 
-        i = 0
-        while i < 1:
-
-            browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-            time.sleep(3)
-            i += 1
+        # i = 0
+        # while i < 1:
+        #
+        #     browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        #     time.sleep(3)
+        #     i += 1
 
         pageSource = browser.page_source
 

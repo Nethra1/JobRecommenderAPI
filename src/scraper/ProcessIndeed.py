@@ -7,8 +7,8 @@ from src.scraper.writeCSV import CSVWriter
 
 class Indeed:
 
-    def __init__(self) -> None:
-        pass
+    # def __init__(self) -> None:
+    #     pass
 
     def processHomePage(self, job_page_links):
 
@@ -72,15 +72,17 @@ class Indeed:
 
         # https://ca.indeed.com/jobs?q&l=Windsor%2C%20ON&start=20
         pagenationsLinks = []
-
-        jobPosition = '?q=' + position.strip().replace(' ', '%20')
-
+        searchUrl = indeedBaseURLjobs+'?q='
+        if position != "null":
+            jobPosition = position.strip().replace(' ', '%20')
+            searchUrl = searchUrl + jobPosition;
         if location == '':
             location = 'Windsor'
 
         jobLocation = '&l=' + location.strip()
 
-        searchUrl = indeedBaseURLjobs + jobPosition + jobLocation
+        searchUrl = searchUrl + jobLocation
+        print(searchUrl)
 
         pagenationsLinks.append(searchUrl)
 
