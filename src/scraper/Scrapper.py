@@ -1,25 +1,41 @@
 # from asyncio.windows_events import NULL
 from concurrent.futures import process
-from multiprocessing import Process
 from typing import Union, Any
 
-from src.scraper.ProcessIndeed import Indeed
-from src.scraper.ProcessLinkedIn import LinkedIn
-from src.scraper.writeCSV import CSVWriter
+from ProcessIndeed import Indeed
+from ProcessLinkedIn import LinkedIn
+from writeCSV import CSVWriter
 
+import concurrent.futures
 
-class Scraper:
-    def main(self):
+def main(): 
 
-        CSVWriter.initializeRowHeader('All_Jobs.csv')
+    position = input("What position are you looking for ? ")
+    location = input("what is your preferred location ? ")
+    csvName = 'allJobs.csv'
 
-        indeed = Indeed()
-        p1 = Process(indeed.startCrawling("Sales Associate", "Windsor"))
-        p1.start()
-        linkedIn = LinkedIn()
-        p2 = Process(linkedIn.process())
-        p2.start()
-        p1.join()
-        p2.join()
-    # if __name__ == "__main__":
-    #     main()
+    CSVWriter.initializeRowHeader(csvName)
+
+    allJobs = []
+    allJobsIndeed = []
+    allJobsLinkedIn = []
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        allJobsIndeed = executor.submit(indeed_thread, position, location, csvName )
+        allJobsLinkedIn = executor.submit(linkedin_thread, position, location, csvName)
+
+    # print(allJobsIndeed.result())
+    allJobs.extend(allJobsIndeed.result())
+    allJobs.extend(allJobsLinkedIn.result())
+    CSVWriter.writeToCsv(allJobs, csvName)
+
+def indeed_thread(position, location, csvName):
+    indeed = Indeed(position, location, csvName)
+    return indeed.process()
+
+def linkedin_thread(position, location, csvName):
+    linkedIn = LinkedIn(position, location, csvName)
+    return linkedIn.process()
+
+if __name__ == "__main__":
+    main()
