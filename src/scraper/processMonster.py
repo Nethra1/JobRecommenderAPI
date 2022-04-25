@@ -6,7 +6,7 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 import concurrent.futures
-import time
+import time 
 
 from src.entities.jobdetails import JobDetails
 

@@ -48,19 +48,6 @@ class LinkedIn:
 
         return jobs
 
-<<<<<<< Updated upstream
-    def process(self):
-        print("linkedin started")
-        browser=webdriver.Chrome()
-        browser.get("https://ca.linkedin.com/jobs/search?keywords=&location=Windsor")
-
-        i = 0
-        while i < 1:
-
-            browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-            time.sleep(3)
-            i += 1
-=======
     def processLinkedInLinks2(self, link):
 
         # print(link)
@@ -104,7 +91,6 @@ class LinkedIn:
             browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             time.sleep(3)
             i += 10
->>>>>>> Stashed changes
 
         pageSource = browser.page_source
 

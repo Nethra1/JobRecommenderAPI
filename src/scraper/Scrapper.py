@@ -11,22 +11,6 @@ from src.scraper.writeCSV import CSVWriter
 
 
 class Scraper:
-<<<<<<< Updated upstream
-    def main(self):
-
-        CSVWriter.initializeRowHeader('All_Jobs.csv')
-
-        indeed = Indeed()
-        p1 = Process(indeed.startCrawling("Sales Associate", "Windsor"))
-        p1.start()
-        linkedIn = LinkedIn()
-        p2 = Process(linkedIn.process())
-        p2.start()
-        p1.join()
-        p2.join()
-    # if __name__ == "__main__":
-    #     main()
-=======
 
     def monster_thread(position, location, numberOfJobs):
         monster = Monster(position, location, numberOfJobs)
@@ -65,4 +49,3 @@ class Scraper:
 
     if __name__ == "__main__":
         main()
->>>>>>> Stashed changes
