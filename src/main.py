@@ -52,8 +52,15 @@ def get_recommended_jobs():
         list_of_jobs.append(jobs)
     return jsonify(list_of_jobs)
 
+<<<<<<< Updated upstream
 @app.route('/jobs')
 def get_jobs():
+=======
+@app.route('/jobs/<position>/<location>')
+def get_jobs(position, location):
+
+    print('in main')
+>>>>>>> Stashed changes
     scraper = Scraper()
     scraper.main()
     readCsv = readCSV()
