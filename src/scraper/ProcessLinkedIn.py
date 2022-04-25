@@ -70,6 +70,7 @@ class LinkedIn:
             allLinks.append(anchor['href'])
 
         jobs = self.processLinkedInLinks(allLinks)
+        print("linkedin jobs count" + str(len(jobs)))
 
         # CSVWriter.writeToCsv(jobs, 'LinkedIn_Jobs.csv')
         CSVWriter.writeToCsv(jobs, 'All_Jobs.csv')

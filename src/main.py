@@ -1,10 +1,13 @@
 import json
+import os
 
 import flask
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 # from .entities.entity import Session, engine, Base
 # from .entities.jobdetails import JobDetails, JobDetailsSchema
+from werkzeug.utils import secure_filename
+
 from .scraper.ColumnMapper import MapperClass
 from .scraper.Scrapper import Scraper
 from .scraper.job_recommender import JobRecommendation
@@ -14,6 +17,9 @@ from .scraper.writeCSV import CSVWriter
 app = Flask(__name__)
 # Base.metadata.create_all(engine)
 CORS(app)
+with open('resume.txt', 'w') as f:
+    f.write("")
+f.close()
 
 
 # @app.route('/alljobs')
@@ -60,7 +66,7 @@ def get_jobs(position, location):
     read_csv = readCSV()
     all_rows = read_csv.getAllRows()
     job_recommend = JobRecommendation()
-    recommended_jobs = job_recommend.getRowsWithHeading()
+    recommended_jobs = job_recommend.getRowsWithHeading(position)
     mapper_class = MapperClass()
     list_of_jobs = []
     for job in recommended_jobs:
@@ -71,3 +77,11 @@ def get_jobs(position, location):
         'recommend_jobs':list_of_jobs
     }
     return jsonify(job_data)
+
+@app.route('/resume', methods=['GET', 'POST'])
+def update_recommendation():
+    resume_data = str(request.get_json()['resumeContent'])
+    with open('resume.txt', 'w') as f:
+        f.write(resume_data)
+    f.close()
+    return flask.Response(status=201)

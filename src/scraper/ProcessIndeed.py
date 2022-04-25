@@ -100,6 +100,7 @@ class Indeed:
             allLinks.extend(self.processSoup(source))
 
         jobDetailsList = self.processHomePage(allLinks)
+        print("indeed jobs count" + str(len(jobDetailsList)))
 
         # CSVWriter.writeToCsv(jobDetailsList, 'Indeed_Jobs.csv')
         CSVWriter.writeToCsv(jobDetailsList, 'All_Jobs.csv')

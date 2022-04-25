@@ -14,5 +14,6 @@ class MapperClass:
             'company':jobdetails.company,
             'job_link':jobdetails.job_link,
             'source':jobdetails.source,
-            'visited_date':jobdetails.visited_date
+            'visited_date':jobdetails.visited_date,
+            'score':jobdetails.score
         }

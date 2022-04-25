@@ -15,13 +15,14 @@ class JobDetails:
     # description = Column(String)
     # source = Column(String, nullable=True)
 
-    def __init__(self, title, company, job_link, description, source):
+    def __init__(self, title, company, job_link, description, source, score=0):
         self.title = title
         self.job_link = job_link
         self.company = company
         self.visited_date = None
         self.description = description
         self.source = source
+        self.score = score
 
 
 # class JobDetailsSchema(Schema):
