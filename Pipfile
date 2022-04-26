@@ -16,6 +16,7 @@ lxml = "*"
 numpy = "*"
 sklearn = "*"
 psycopg2-binary = "*"
+xmlx = "*"
 
 [dev-packages]
 

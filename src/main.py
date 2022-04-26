@@ -8,6 +8,7 @@ from flask_cors import CORS
 # from .entities.jobdetails import JobDetails, JobDetailsSchema
 from werkzeug.utils import secure_filename
 
+from .entities.jobdetails import JobDetails
 from .scraper.ColumnMapper import MapperClass
 from .scraper.Scrapper import Scraper
 from .scraper.job_recommender import JobRecommendation
@@ -20,6 +21,7 @@ CORS(app)
 with open('resume.txt', 'w') as f:
     f.write("")
 f.close()
+CSVWriter.initializeRowHeader('visited_jobs.csv')
 
 
 # @app.route('/alljobs')
@@ -37,15 +39,14 @@ f.close()
 #     return jsonify(allRows)
 
 
-# @app.route('/addjobs', methods=['GET', 'POST'])
-# def add_jobs():
-#     posted_jobs = JobDetailsSchema(many=True).load(request.get_json())
-#     jobs = [JobDetails(**row) for row in posted_jobs]
-#     session = Session()
-#     session.add_all(jobs)
-#     session.commit()
-#     session.close()
-#     return flask.Response(status=201)
+@app.route('/addjobs', methods=['GET', 'POST'])
+def add_jobs():
+    jobs = request.get_json()
+    jobDetails = JobDetails(jobs['title'], jobs['company'], jobs['job_link'], jobs['description'], jobs['source'])
+    posted_jobs = []
+    posted_jobs.append(jobDetails)
+    CSVWriter.writeToCsv(posted_jobs, "visited_jobs.csv")
+    return flask.Response(status=201)
 
 
 # @app.route('/recommendedjobs')
@@ -64,7 +65,7 @@ def get_jobs(position, location):
     scraper = Scraper()
     scraper.main(position, location)
     read_csv = readCSV()
-    all_rows = read_csv.getAllRows()
+    all_rows = read_csv.getAllRows("All_Jobs.csv")
     job_recommend = JobRecommendation()
     recommended_jobs = job_recommend.getRowsWithHeading(position)
     mapper_class = MapperClass()
@@ -85,3 +86,12 @@ def update_recommendation():
         f.write(resume_data)
     f.close()
     return flask.Response(status=201)
+
+@app.route('/visited', methods=['GET'])
+def get_visited_jobs():
+    read_csv = readCSV()
+    all_rows = read_csv.getAllRows("visited_jobs.csv")
+    visited_jobs ={
+        'jobs': all_rows
+    }
+    return jsonify(visited_jobs)

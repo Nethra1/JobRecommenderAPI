@@ -4,8 +4,8 @@ from src.scraper.ColumnMapper import MapperClass
 
 
 class readCSV:
-    def getAllRows(self):
-        with open('All_Jobs.csv', 'r') as file:
+    def getAllRows(self, file_name):
+        with open(file_name, 'r') as file:
             reader = csv.DictReader(file)
             # rows = list(reader)
             jobList = []

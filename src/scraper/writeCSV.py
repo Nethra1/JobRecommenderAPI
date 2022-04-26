@@ -13,13 +13,14 @@ class CSVWriter:
                                 'Job Page link', 'Job Description', 'Source'])
 
 
-    def writeToCsv( jobs, nameCsv):
+    def writeToCsv(jobs, nameCsv):
         with open(nameCsv, 'a', newline='', encoding='utf-8') as csvF:
             csv_writer = csv.writer(csvF)
 
             id = 1
+            print("jobs in write", jobs)
             for job in jobs:
-
+                print("job", job)
                 if job.job_link:
                     csv_writer.writerow(
                         [jobs.index(job) + 1, job.title, job.company, job.job_link, job.description, job.source])

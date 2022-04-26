@@ -48,14 +48,9 @@ class JobRecommendation:
         for row in data['Job Description']:
             corpus.append(str(row))
         vect = TfidfVectorizer(min_df=1, stop_words="english")
-        print("corpus ", str(len(corpus)))
-        print("rows ", str(len(self.csv_rows)))
         tfidf = vect.fit_transform(corpus)
         cosine_similarities = linear_kernel(tfidf[0:1], tfidf).flatten()
         document_scores = [item.item() for item in cosine_similarities[1:]]
-        print(str(document_scores))
-        sorted_score = sorted(document_scores, reverse=False)
-        print(str(sorted_score))
         for index, item in enumerate(self.csv_rows):
             print("Company " + self.csv_rows[index]['Company'])
             job = JobDetails(self.csv_rows[index]['Job Title'], self.csv_rows[index]['Company'],
